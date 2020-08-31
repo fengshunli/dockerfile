@@ -1,0 +1,19 @@
+FROM openjdk:8-jdk-alpine
+
+ENV TZ Asia/Shanghai
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+
+RUN apk add --no-cache tzdata \
+&& echo "${TIME_ZONE}" > /etc/timezone \
+&& ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
+
+
+RUN set -xe \
+&& apk --no-cache add ttf-dejavu fontconfig
+
+CMD [ "sh", "-c", "echo $TZ" ]
+
+
+EXPOSE 8080
